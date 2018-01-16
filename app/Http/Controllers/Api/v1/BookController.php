@@ -8,7 +8,6 @@ use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
 use App\Model\Book;
-use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,15 +36,8 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        $book = new Book();
-        $book->user_id = $request->user()->id;
-        $book->title = $request->title;
-        $book->description = $request->description;
-        $book->author_first_name = $request->author_first_name;
-        $book->author_last_name = $request->author_last_name;
-        $book->stock = $request->stock;
-        $book->price = $request->price;
-        $book->save();
+        $book = new Book($request->all());
+        $request->user()->books()->save($book);
         return response([
             'data' => new BookCollection($book)
         ], Response::HTTP_CREATED);
@@ -102,6 +94,21 @@ class BookController extends Controller
     public function history(Request $request)
     {
         return BookCollection::collection($request->user()->books()->onlyTrashed()->paginate(10));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function history_show(Request $request)
+    {
+        $book = $request->user()->books()->onlyTrashed()->where('id', $request->book)->get()->first();
+
+        $this->BookUserCheck($book);
+
+        return new BookCollection($book);
     }
 
     /**
