@@ -16,14 +16,23 @@ use Illuminate\Http\Request;
 Route::get('/login', function() { return View::make('auth.login'); })->name('login');
 Route::get('/register', function() { return View::make('auth.register'); })->name('register');
 
-Route::prefix('user')->group(function() {
-    Route::get('/', 'UserController@showUser')->name('user.show');
-    Route::post('/login', 'UserController@login')->name('user.login');
-    Route::post('/register', 'UserController@register')->name('user.register');
-    Route::get('/books', 'UserController@books')->name('user.books');
-    Route::get('/books/history', 'BookController@history')->name('user.books.history');
-    Route::patch('/books/restore/{book}', 'BookController@restore')->name('user.books.restore');
-    Route::get('/{user}/books', 'UserController@showUserBooks')->name('user.books.show');
+
+Route::group(['prefix' => '/v1'], function () {
+
+    Route::prefix('user')->group(function() {
+
+        Route::get('/', 'Api\v1\UserController@showUser')->name('user.show');
+        Route::post('/login', 'Api\v1\UserController@login')->name('user.login');
+        Route::post('/register', 'Api\v1\UserController@register')->name('user.register');
+
+        Route::get('/books', 'Api\v1\UserController@books')->name('user.books');
+
+    });
+
+    Route::apiResource('/books', 'Api\v1\BookController');
+    Route::get('/books/history', 'Api\v1\BookController@history')->name('user.books.history');
+    Route::match(['put', 'patch'], '/books/restore/{book}', 'Api\v1\BookController@restore')->name('user.books.restore');
+
 });
 
-Route::apiResource('/books', 'BookController');
+// Route::group(['prefix' => 'v2'], function () {});

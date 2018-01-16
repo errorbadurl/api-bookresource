@@ -26,6 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+         Gate::define('auth-check', function ($user, $book) {
+            if ($user && $book) {
+                return $user->id == $book->user_id;
+            }
+        });
+
         Passport::routes();
     }
 }

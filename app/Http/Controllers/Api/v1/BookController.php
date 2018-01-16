@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\BookNotBelongsToUser;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
 use App\Model\Book;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
@@ -110,17 +112,24 @@ class BookController extends Controller
      */
     public function restore(Request $request)
     {
+        $this->BookUserCheck($request->user()->books()->onlyTrashed()->where('id', $request->book)->get()->first());
+
         $request->user()->books()->onlyTrashed()->where('id', $request->book)->restore();
         return response([
             'data' => new BookCollection($request->user()->books()->where('id', $request->book)->get()->first())
         ], Response::HTTP_OK);
     }
 
+    /**
+     * Check if book belongs to user.
+     *
+     * @param  \App\Model\Book  $book
+     * @return \App\Exceptions\BookNotBelongsToUser
+     */
     protected function BookUserCheck($book)
     {
-        if (Auth::id() !== $book->user_id) {
+        if (Gate::denies('auth-check', $book)) {
             throw new BookNotBelongsToUser;
-            
         }
     }
 }
