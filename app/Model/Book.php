@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Model\Purchase;
+use App\Scopes\TitleScope;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -21,6 +22,18 @@ class Book extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new TitleScope);
+    }
 
     public function user()
     {

@@ -24,7 +24,6 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'book_id' => 'required|exists:books,id',
             'quantity' => 'required|integer',
         ];
     }

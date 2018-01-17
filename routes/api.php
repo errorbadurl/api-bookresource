@@ -29,8 +29,8 @@ Route::group(['prefix' => '/v1'], function () {
     Route::get('/books/history', 'Api\v1\BookController@history')->name('books.history');
     Route::get('/books/history/{book}', 'Api\v1\BookController@history_show')->name('books.history.show');
     Route::match(['put', 'patch'], '/books/history/{book}/restore', 'Api\v1\BookController@restore')->name('books.history.restore');
+    Route::post('/books/{book}/purchase', 'Api\v1\BookController@purchase')->name('books.purchase');
     Route::apiResource('/books', 'Api\v1\BookController');
-    Route::apiResource('/purchases', 'Api\v1\PurchaseController', ['parameters' => ['purchase' => 'book']]);
 });
 
 // Route::group(['prefix' => 'v2'], function () {});

@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api\v1;
 use App\Exceptions\BookNotBelongsToUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
+use App\Http\Requests\PurchaseRequest;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
+use App\Http\Resources\PurchaseCollection;
 use App\Model\Book;
 use App\Model\Purchase;
 use DB;
@@ -127,6 +129,30 @@ class BookController extends Controller
         return response([
             'data' => new BookCollection($request->user()->books()->where('id', $request->book)->get()->first())
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\PurchaseRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function purchase(PurchaseRequest $request, Book $book)
+    {
+        if (($book->stock-$request->quantity) <= 0) {
+            return response()->json([
+                'errors' => 'Book stock is not enough'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $book->decrement('stock', $request->quantity);
+        $purchase = new Purchase();
+        $purchase->quantity = $request->quantity;
+        $purchase->user_id = $request->user()->id;
+        $purchase->book_id = $book->id;
+        $purchase->save();
+        return response([
+            'data' => new PurchaseCollection($purchase)
+        ], Response::HTTP_CREATED);
     }
 
     /**
