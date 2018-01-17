@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Model\Purchase;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,5 +25,10 @@ class Book extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function purchases()
+    {
+        return $this->belongsToMany(Book::class, 'purchases');
     }
 }

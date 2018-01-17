@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookCollection;
+use App\Http\Resources\PurchaseCollection;
 use App\Http\Resources\UserResource;
+use App\Model\Purchase;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -62,6 +64,17 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function purchases(Request $request)
+    {
+        return PurchaseCollection::collection(Purchase::where('user_id', $request->user()->id)->paginate(10));
+    }
+
+    /**
      * Login user.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -69,9 +82,19 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        $validate = $this->validations($request, "login");
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|max:191',
+            'password' => 'required',
+        ]);
+        $errors = [];
+        $error = false;
+        if ($validator->fails()) {
+            $error = true;
+            $errors = $validator->errors();
+        }
+        $validate = ["error" => $error,"errors"=>$errors];
         if ($validate["error"]) {
-            return $this->prepareResult(false, [], $validate['errors'],"Error while validating user"); 
+            return $this->prepareResult(false, [], $validate['errors'],"Error while validating user");
         }
         $user = User::where("email", $request->email)->first();
         if ($user) {
@@ -79,7 +102,7 @@ class UserController extends Controller
                 return $this->prepareResult(true, ["accessToken" => $user->createToken('Book Resource App')->accessToken], [], "User Verified");
             }
             else {
-                return $this->prepareResult(false, [], ["password" => "Wrong passowrd"], "Password not matched");  
+                return $this->prepareResult(false, [], ["password" => "Wrong passowrd"], "Password not matched");
             }
         }
         else {
@@ -103,7 +126,7 @@ class UserController extends Controller
             'password_confirmation' => 'required|min:4'
         ]);
         if ($valid->fails()) {
-            $jsonError=response()->json($valid->errors()->all(), 400);
+            $jsonError=response()->json($valid->errors()->all(), Response::HTTP_BAD_REQUEST);
             return \Response::json($jsonError);
         }
         $data = request()->only('first_name', 'last_name', 'email', 'password');
@@ -136,51 +159,7 @@ class UserController extends Controller
     }
 
     /**
-     * Get a validator for an incoming Book related request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  $type
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    public function validations($request, $type)
-    {
-        $errors = [];
-        $error = false;
-        if ($type == "login") {
-            $validator = Validator::make($request->all(),[
-                'email' => 'required|email|max:191',
-                'password' => 'required',
-            ]);
-            if ($validator->fails()) {
-                $error = true;
-                $errors = $validator->errors();
-            }
-        }
-        elseif ($type == "create") {
-            $validator = Validator::make($request->all(),[
-                'title' => 'required',
-                'description' => 'required',
-            ]);
-            if ($validator->fails()) {
-                $error = true;
-                $errors = $validator->errors();
-            }
-        }
-        elseif ($type == "update") {
-            $validator = Validator::make($request->all(),[
-                'title' => 'filled',
-                'description' => 'filled',
-            ]);
-            if ($validator->fails()) {
-                $error = true;
-                $errors = $validator->errors();
-            }
-        }
-        return ["error" => $error,"errors"=>$errors];
-    }
-
-    /**
-     * Display a listing of the resource.
+     * Prepares the result of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

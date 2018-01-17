@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Model\Book;
+use App\Model\Purchase;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -32,5 +33,10 @@ class User extends Authenticatable
     public function books()
     {
         return $this->hasMany(Book::class);
+    }
+
+    public function purchases()
+    {
+        return $this->belongsToMany(User::class, 'purchases');
     }
 }
