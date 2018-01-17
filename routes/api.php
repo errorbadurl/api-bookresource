@@ -13,9 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
+// Route::get('/mail', 'MailController@send')->name('mail.send');
+// Route::get('/test', function() { return View::make('mail.bookpurchase'); });
+
 Route::get('/login', function() { return View::make('auth.login'); })->name('login');
 Route::get('/register', function() { return View::make('auth.register'); })->name('register');
-
 
 Route::group(['prefix' => '/v1'], function () {
     Route::prefix('user')->group(function() {

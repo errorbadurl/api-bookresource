@@ -9,11 +9,13 @@ use App\Http\Requests\PurchaseRequest;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
 use App\Http\Resources\PurchaseCollection;
+use App\Mail\BookPurchaseMail;
 use App\Model\Book;
 use App\Model\Purchase;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
@@ -150,6 +152,10 @@ class BookController extends Controller
         $purchase->user_id = $request->user()->id;
         $purchase->book_id = $book->id;
         $purchase->save();
+
+        // Send mail to book owner
+        Mail::to($book->user->email)->send(new BookPurchaseMail($request->user(), $book, $request->quantity));
+
         return response([
             'data' => new PurchaseCollection($purchase)
         ], Response::HTTP_CREATED);
