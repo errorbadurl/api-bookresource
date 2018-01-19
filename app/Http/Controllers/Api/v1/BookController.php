@@ -8,24 +8,26 @@ use App\Http\Requests\BookRequest;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
-use App\Http\Resources\PurchaseCollection;
-use App\Mail\BookPurchaseMail;
 use App\Model\Book;
 use App\Model\Purchase;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Mail;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @resource Book
+ */
 class BookController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api')->except('index');
+        $this->middleware('auth:api')->except('index, search');
     }
 
     /**
-     * Display a listing of the resource.
+     * List
+     *
+     * Displays all books with details.
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,7 +37,22 @@ class BookController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Book View
+     *
+     * Displays the selected book's details.
+     *
+     * @param  \App\Model\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Book $book)
+    {
+        return new BookResource($book);
+    }
+
+    /**
+     * Book Create
+     *
+     * Store a newly created book in storage.
      *
      * @param  \App\Http\Requests\BookRequest  $request
      * @return \Illuminate\Http\Response
@@ -50,18 +67,9 @@ class BookController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Book Update
      *
-     * @param  \App\Model\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Book $book)
-    {
-        return new BookResource($book);
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Update the specified book in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Model\Book  $book
@@ -78,7 +86,9 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Book Delete
+     *
+     * Soft deletes the specified book. It can be viewed through the history.
      *
      * @param  \App\Model\Book  $book
      * @return \Illuminate\Http\Response
@@ -88,119 +98,9 @@ class BookController extends Controller
         $this->BookUserCheck($book);
 
         $book->delete();
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function history(Request $request)
-    {
-        return BookCollection::collection($request->user()->books()->onlyTrashed()->paginate(10));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function history_show(Request $request)
-    {
-        $book = $request->user()->books()->onlyTrashed()->where('id', $request->book)->get()->first();
-
-        $this->BookUserCheck($book);
-
-        return new BookCollection($book);
-    }
-
-    /**
-     * Restore the specified resource from storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function restore(Request $request)
-    {
-        $this->BookUserCheck($request->user()->books()->onlyTrashed()->where('id', $request->book)->get()->first());
-
-        $request->user()->books()->onlyTrashed()->where('id', $request->book)->restore();
         return response([
-            'data' => new BookCollection($request->user()->books()->where('id', $request->book)->get()->first())
+            'message' => 'Book deleted'
         ], Response::HTTP_OK);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\PurchaseRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function purchase(PurchaseRequest $request, Book $book)
-    {
-        if (($book->stock-$request->quantity) <= 0) {
-            return response()->json([
-                'errors' => 'Book stock is not enough'
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-        $book->decrement('stock', $request->quantity);
-        $purchase = new Purchase();
-        $purchase->quantity = $request->quantity;
-        $purchase->user_id = $request->user()->id;
-        $purchase->book_id = $book->id;
-        $purchase->save();
-
-        // Send mail to book owner
-        Mail::to($book->user->email)->send(new BookPurchaseMail($request->user(), $book, $request->quantity));
-
-        return response([
-            'data' => new PurchaseCollection($purchase)
-        ], Response::HTTP_CREATED);
-    }
-
-    /**
-     * Search the specified resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $query = Book::orderBy('title', 'asc');
-
-        $id = $request->id;
-        if ($id && !empty($id)) {
-            $query->where('id', 'like', "%{$id}%");
-        }
-
-        $keyword = $request->keyword;
-        if ($keyword && !empty($keyword)) {
-            $query->where(function($query) use ($keyword) {
-                $query->orWhere('title', 'like', "%{$keyword}%");
-                $query->orWhere('description', 'like', "%{$keyword}%");
-            });
-        }
-
-        $author = $request->author;
-        if ($author && !empty($author)) {
-            $query->where(function($query) use ($author) {
-                $query->orWhere(DB::raw("CONCAT(`author_first_name`, ' ', `author_last_name`)"), 'like', "%{$author}%");
-                $query->orWhere('author_first_name', 'like', "%{$author}%");
-                $query->orWhere('author_last_name', 'like', "%{$author}%");
-            });
-        }
-
-        $price = $request->price;
-        if ($price && !empty($price)) {
-            $query->where('price', '=', "{$price}");
-        }
-
-        $result = $query->paginate(10); // make the query and load the data
-
-        return BookCollection::collection($result);
     }
 
     /**

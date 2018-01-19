@@ -15,6 +15,6 @@ class BookNotBelongsToUser extends Exception
      */
     public function render()
     {
-        return ['data' => 'Book Not Belongs To User'];
+        return ['data' => 'Book not belongs to user'];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class BookResource extends Resource
+class HistoryResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -23,6 +23,10 @@ class BookResource extends Resource
             'seller' => [
                 'name' => $this->user->first_name." ".$this->user->last_name,
                 'email' => $this->user->email,
+            ],
+            'href' => [
+                'link' => route('history.show', $this->id),
+                'link_restore' => route('history.restore', $this->id)
             ],
         ];
     }

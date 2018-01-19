@@ -20,19 +20,24 @@ Route::get('/login', function() { return View::make('auth.login'); })->name('log
 Route::get('/register', function() { return View::make('auth.register'); })->name('register');
 
 Route::group(['prefix' => '/v1'], function () {
-    Route::prefix('user')->group(function() {
-        Route::get('/', 'Api\v1\UserController@showUser')->name('user.show');
-        Route::post('/login', 'Api\v1\UserController@login')->name('user.login');
-        Route::post('/register', 'Api\v1\UserController@register')->name('user.register');
-        Route::get('/books', 'Api\v1\UserController@books')->name('user.books');
-        Route::get('/purchases', 'Api\v1\UserController@purchases')->name('user.purchases');
+    Route::group(['prefix' => 'user', 'as' => 'user'], function() {
+        Route::get('/', 'Api\v1\UserController@showUser')->name('.show');
+        Route::post('/login', 'Api\v1\UserController@login')->name('.login');
+        Route::post('/register', 'Api\v1\UserController@register')->name('.register');
+        Route::get('/books', 'Api\v1\UserController@books')->name('.books');
+        Route::get('/purchases', 'Api\v1\UserController@purchases')->name('.purchases');
     });
-    Route::get('/books/search', 'Api\v1\BookController@search')->name('books.search');
-    Route::get('/books/history', 'Api\v1\BookController@history')->name('books.history');
-    Route::get('/books/history/{book}', 'Api\v1\BookController@history_show')->name('books.history.show');
-    Route::match(['put', 'patch'], '/books/history/{book}/restore', 'Api\v1\BookController@restore')->name('books.history.restore');
-    Route::post('/books/{book}/purchase', 'Api\v1\BookController@purchase')->name('books.purchase');
-    Route::apiResource('/books', 'Api\v1\BookController');
+    Route::group(['prefix' => 'books', 'as' => 'books'], function() {
+        Route::post('/{book}/purchase', 'Api\v1\PurchaseController@purchase')->name('.purchase');
+    });
+    Route::apiResource('books', 'Api\v1\BookController');
+    Route::group(['prefix' => 'history', 'as' => 'history'], function() {
+        Route::get('/', 'Api\v1\HistoryController@history');
+        Route::get('/{history}', 'Api\v1\HistoryController@historyShow')->name('.show');
+        Route::delete('/{history}/delete', 'Api\v1\HistoryController@forceDelete')->name('.delete');
+        Route::match(['put', 'patch'], '/{history}/restore', 'Api\v1\HistoryController@restore')->name('.restore');
+    });
+    Route::get('/search', 'Api\v1\SearchController@bookSearch')->name('search');
 });
 
 // Route::group(['prefix' => 'v2'], function () {});

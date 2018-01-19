@@ -23,15 +23,15 @@ class PurchaseCollection extends Resource
                     'link' => route('books.show', $this->book->id)
                 ],
             ],
-            'seller' => [
-                'name' => $this->book->user->first_name." ".$this->book->user->last_name,
-                'email' => $this->book->user->email,
-            ],
             'customer' => [
                 'name' => $this->user->first_name." ".$this->user->last_name,
                 'email' => $this->user->email,
             ],
-            'quantity' => $this->quantity
+            'quantity' => $this->quantity,
+            'seller' => [
+                'name' => $this->book->user->first_name." ".$this->book->user->last_name,
+                'email' => $this->book->user->email,
+            ],
         ];
     }
 }

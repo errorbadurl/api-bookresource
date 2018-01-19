@@ -8,11 +8,15 @@ use App\Http\Resources\PurchaseCollection;
 use App\Http\Resources\UserResource;
 use App\Model\Purchase;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @resource User
+ */
 class UserController extends Controller
 {
     public function __construct() {
@@ -20,30 +24,22 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * User View
      *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * Displays user information.
+     *
+     * @return \App\Http\Resources\UserResource
      */
-    public function show(User $user)
+    public function showUser()
     {
-        return new UserResource($user);
+        return new UserResource(Auth::user());
     }
 
     /**
-     * Display the specified resource.
+     * User's Book List
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function showUser(Request $request)
-    {
-        return new UserResource($request->user());
-    }
-
-    /**
-     * Display the specified resource.
-     *
+     * Displays a list of all books created by the user.
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -53,7 +49,9 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * User's Book List
+     *
+     * Displays a list of all books created by the user.
      *
      * @param  \App\User  $id
      * @return \Illuminate\Http\Response
@@ -64,7 +62,9 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * User's Purchase List
+     *
+     * Displays a list of all book purchases by the user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -75,7 +75,9 @@ class UserController extends Controller
     }
 
     /**
-     * Login user.
+     * User Login
+     *
+     * Fetches an access token to be used as an authentication for the API.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return json
@@ -110,6 +112,15 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * User Registration
+     *
+     * Creates a new user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return json
+     */
     public function register(Request $request)
     {
         /**

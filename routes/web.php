@@ -14,10 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/mail', function(){
-    Mail::send(['text' => 'mail'], ['name' => 'Assassin'], function ($message) {
-      $message->to('scambert666@yahoo.com', 'Assassiner')->subject('Welcome!');
-      $message->from('blacqueous@gmail.com', 'from me');
-    });
-});

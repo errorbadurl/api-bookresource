@@ -18,10 +18,9 @@ class BookCollection extends Resource
         if ($this->deleted_at) {
             $href = [
                 'link' => route('books.history.show', $this->id),
-                'restore' => route('books.history.restore', $this->id)
+                'link_restore' => route('books.history.restore', $this->id)
             ];
         }
-
         return [
             'title' => $this->title,
             'author' => trim($this->author_first_name." ".$this->author_last_name),

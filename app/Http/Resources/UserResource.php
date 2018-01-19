@@ -14,16 +14,16 @@ class UserResource extends Resource
      */
     public function toArray($request)
     {
+        $books = [];
+        foreach ($this->books as $book) {
+            $books[] = route('books.show', $book->id);
+        }
         return [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
-            'count' => $this->books->count(),
-            // 'href' => [
-            //     'books' => [
-            //         route('user.books', $this->id)
-            //     ],
-            // ],
+            'books' => $this->books->count(),
+            'href' => $books,
         ];
     }
 }
