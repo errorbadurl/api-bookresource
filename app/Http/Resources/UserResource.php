@@ -22,8 +22,10 @@ class UserResource extends Resource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
-            'books' => $this->books->count(),
-            'href' => $books,
+            'books' => [
+                'count' => $this->books->count(),
+                'href' => $books,
+            ]
         ];
     }
 }

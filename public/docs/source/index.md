@@ -21,7 +21,7 @@ Welcome to the generated API reference.
 
 #Book
 <!-- START_81570fe29be54336ca67a7f3c307e51d -->
-## List
+## Book List
 
 Displays all books with details.
 
@@ -56,19 +56,19 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "title": "Title 1",
+            "title": "At vero eos",
             "author": "Lorem Ipsum",
-            "price": 2,
+            "price": 15,
             "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/1"
             }
         },
         {
-            "title": "Title 2",
-            "author": "Dolor Amit",
-            "price": 2,
-            "stock": 8,
+            "title": "Sed ut perspiciatis ",
+            "author": "Molre Spoif",
+            "price": 10,
+            "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/2"
             }
@@ -158,7 +158,7 @@ Parameter | Type | Status | Description
     author_first_name | string |  required  | 
     author_last_name | string |  required  | 
     price | string |  required  | Between: `0` and `99.99`
-    stock | integer |  required  | Maximum: `100`
+    stock | integer |  required  | Minimum: `0` Maximum: `100`
 
 <!-- END_52dfba10ecc5dfbebbd86bdad94a4ba8 -->
 
@@ -197,10 +197,10 @@ $.ajax(settings).done(function (response) {
 ```json
 {
     "data": {
-        "title": "Title 1",
-        "decription": "Description 1",
+        "title": "At vero eos",
+        "decription": "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
         "author": "Lorem Ipsum",
-        "price": 2,
+        "price": 15,
         "stock": 10,
         "seller": {
             "name": "Juan Dela Cruz",
@@ -229,6 +229,13 @@ Update the specified book in storage.
 curl -X PUT "http://localhost/api/v1/books/{book}" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
+ 
+    -d "title"="molestias"
+    -d "description"="molestias"
+    -d "author_first_name"="molestias"
+    -d "author_last_name"="molestias"
+    -d "price"="50"
+    -d "stock"="51"
 
 ```
 
@@ -238,6 +245,14 @@ var settings = {
     "crossDomain": true,
     "url": "http://localhost/api/v1/books/{book}",
     "method": "PUT",
+    "data": {
+        "title": "molestias",
+        "description": "molestias",
+        "author_first_name": "molestias",
+        "author_last_name": "molestias",
+        "price": 50,
+        "stock": 51
+},
     "headers": {
         "accept": "application/json"
     }
@@ -254,6 +269,16 @@ $.ajax(settings).done(function (response) {
 
 `PATCH api/v1/books/{book}`
 
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    title | string |  required  | Maximum: `191`
+    description | string |  required  | 
+    author_first_name | string |  required  | 
+    author_last_name | string |  required  | 
+    price | string |  required  | Between: `0` and `99.99`
+    stock | integer |  required  | Minimum: `0` Maximum: `100`
 
 <!-- END_dda6a15c7fc613d6fd4cfdf821db8f8a -->
 
@@ -331,23 +356,13 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "title": "Title 1",
+            "title": "At vero eos",
             "author": "Lorem Ipsum",
-            "price": 2,
+            "price": 15,
             "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/history\/1",
                 "link_restore": "http:\/\/localhost\/api\/v1\/history\/1\/restore"
-            }
-        },
-        {
-            "title": "Title 3",
-            "author": "Molre Spoif",
-            "price": 2,
-            "stock": 10,
-            "href": {
-                "link": "http:\/\/localhost\/api\/v1\/history\/3",
-                "link_restore": "http:\/\/localhost\/api\/v1\/history\/3\/restore"
             }
         }
     ],
@@ -363,8 +378,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/history",
         "per_page": 10,
-        "to": 2,
-        "total": 2
+        "to": 1,
+        "total": 1
     }
 }
 ```
@@ -412,10 +427,10 @@ $.ajax(settings).done(function (response) {
 ```json
 {
     "data": {
-        "title": "Title 1",
-        "decription": "Description 1",
+        "title": "At vero eos",
+        "decription": "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
         "author": "Lorem Ipsum",
-        "price": 2,
+        "price": 15,
         "stock": 10,
         "seller": {
             "name": "Juan Dela Cruz",
@@ -526,7 +541,7 @@ curl -X POST "http://localhost/api/v1/books/{book}/purchase"
 -H "Accept: application/json"
 -H "Content-Type: application/json"
  
-    -d "quantity"="37"
+    -d "quantity"="359513573"
 
 ```
 
@@ -537,7 +552,7 @@ var settings = {
     "url": "http://localhost/api/v1/books/{book}/purchase",
     "method": "POST",
     "data": {
-        "quantity": 37
+        "quantity": 359513573
 },
     "headers": {
         "accept": "application/json"
@@ -557,7 +572,7 @@ $.ajax(settings).done(function (response) {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    quantity | integer |  required  | 
+    quantity | integer |  required  | Minimum: `0`
 
 <!-- END_49a340b2a8732c2ffbde1ae2c3a6b235 -->
 
@@ -607,10 +622,10 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "title": "Title 2",
-            "author": "Dolor Amit",
-            "price": 2,
-            "stock": 8,
+            "title": "Sed ut perspiciatis ",
+            "author": "Molre Spoif",
+            "price": 10,
+            "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/2"
             }
@@ -688,10 +703,12 @@ $.ajax(settings).done(function (response) {
         "first_name": "Juan",
         "last_name": "Dela Cruz",
         "email": "juan.d@example.com",
-        "books": 1,
-        "href": [
-            "http:\/\/localhost\/api\/v1\/books\/1"
-        ]
+        "books": {
+            "count": 1,
+            "href": [
+                "http:\/\/localhost\/api\/v1\/books\/1"
+            ]
+        }
     }
 }
 ```
@@ -715,6 +732,9 @@ Fetches an access token to be used as an authentication for the API.
 curl -X POST "http://localhost/api/v1/user/login" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
+ 
+    -d "email"="clarabelle94@example.net"
+    -d "password"="excepturi"
 
 ```
 
@@ -724,6 +744,10 @@ var settings = {
     "crossDomain": true,
     "url": "http://localhost/api/v1/user/login",
     "method": "POST",
+    "data": {
+        "email": "clarabelle94@example.net",
+        "password": "excepturi"
+},
     "headers": {
         "accept": "application/json"
     }
@@ -738,6 +762,12 @@ $.ajax(settings).done(function (response) {
 ### HTTP Request
 `POST api/v1/user/login`
 
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    email | email |  required  | Maximum: `191`
+    password | string |  required  | 
 
 <!-- END_7a184547882598fc164c10be7745584b -->
 
@@ -752,6 +782,12 @@ Creates a new user.
 curl -X POST "http://localhost/api/v1/user/register" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
+ 
+    -d "first_name"="omnis"
+    -d "last_name"="omnis"
+    -d "email"="wjones@example.net"
+    -d "password"="omnis"
+    -d "password_confirmation"="omnis"
 
 ```
 
@@ -761,6 +797,13 @@ var settings = {
     "crossDomain": true,
     "url": "http://localhost/api/v1/user/register",
     "method": "POST",
+    "data": {
+        "first_name": "omnis",
+        "last_name": "omnis",
+        "email": "wjones@example.net",
+        "password": "omnis",
+        "password_confirmation": "omnis"
+},
     "headers": {
         "accept": "application/json"
     }
@@ -775,6 +818,15 @@ $.ajax(settings).done(function (response) {
 ### HTTP Request
 `POST api/v1/user/register`
 
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    first_name | string |  required  | Maximum: `191`
+    last_name | string |  required  | Maximum: `191`
+    email | email |  required  | Maximum: `191`
+    password | string |  required  | Minimum: `6`
+    password_confirmation | string |  required  | Minimum: `6`
 
 <!-- END_7fef01e7235c89049ebe3685de4bff17 -->
 
@@ -814,9 +866,9 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "title": "Title 1",
+            "title": "At vero eos",
             "author": "Lorem Ipsum",
-            "price": 2,
+            "price": 15,
             "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/1"
@@ -886,9 +938,9 @@ $.ajax(settings).done(function (response) {
     "data": [
         {
             "book": {
-                "title": "Title 2",
-                "author": "Dolor Amit",
-                "price": 2,
+                "title": "Sed ut perspiciatis ",
+                "author": "Molre Spoif",
+                "price": 10,
                 "href": {
                     "link": "http:\/\/localhost\/api\/v1\/books\/2"
                 }
@@ -901,25 +953,6 @@ $.ajax(settings).done(function (response) {
             "seller": {
                 "name": "John Smith",
                 "email": "john.s@example.com"
-            }
-        },
-        {
-            "book": {
-                "title": "Title 1",
-                "author": "Lorem Ipsum",
-                "price": 2,
-                "href": {
-                    "link": "http:\/\/localhost\/api\/v1\/books\/1"
-                }
-            },
-            "customer": {
-                "name": "Juan Dela Cruz",
-                "email": "juan.d@example.com"
-            },
-            "quantity": 1,
-            "seller": {
-                "name": "Juan Dela Cruz",
-                "email": "juan.d@example.com"
             }
         }
     ],
@@ -935,8 +968,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/user\/purchases",
         "per_page": 10,
-        "to": 2,
-        "total": 2
+        "to": 1,
+        "total": 1
     }
 }
 ```

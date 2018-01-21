@@ -25,10 +25,11 @@ class BookController extends Controller
     }
 
     /**
-     * List
+     * Book List
      *
      * Displays all books with details.
      *
+     * @method GET
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -41,6 +42,7 @@ class BookController extends Controller
      *
      * Displays the selected book's details.
      *
+     * @method GET
      * @param  \App\Model\Book  $book
      * @return \Illuminate\Http\Response
      */
@@ -54,6 +56,7 @@ class BookController extends Controller
      *
      * Store a newly created book in storage.
      *
+     * @method POST
      * @param  \App\Http\Requests\BookRequest  $request
      * @return \Illuminate\Http\Response
      */
@@ -71,11 +74,12 @@ class BookController extends Controller
      *
      * Update the specified book in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @method PUT|PATCH
+     * @param  \App\Http\Requests\BookRequest  $request
      * @param  \App\Model\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
         $this->BookUserCheck($book);
 
@@ -90,6 +94,7 @@ class BookController extends Controller
      *
      * Soft deletes the specified book. It can be viewed through the history.
      *
+     * @method DELETE
      * @param  \App\Model\Book  $book
      * @return \Illuminate\Http\Response
      */

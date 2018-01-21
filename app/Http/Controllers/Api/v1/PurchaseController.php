@@ -26,23 +26,27 @@ class PurchaseController extends Controller
      *
      * A customer purchases a book.
      *
+     * @method POST
      * @param  \App\Http\Requests\PurchaseRequest  $request
+     * @param  \App\Model\Book  $book
      * @return \Illuminate\Http\Response
      */
     public function purchase(PurchaseRequest $request, Book $book)
     {
+        // Check if the book has enopugh stock before purchase
         if (($book->stock - $request->quantity) <= 0) {
             return response()->json([
-                'errors' => 'Book stock is not enough'
+                'message' => 'Book stock is not enough.'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+        // Decrease boooks stock
         $book->decrement('stock', $request->quantity);
+        // Save user's purchase
         $purchase = new Purchase();
         $purchase->quantity = $request->quantity;
         $purchase->user_id = $request->user()->id;
         $purchase->book_id = $book->id;
         $purchase->save();
-
         // Send mail to book owner
         Mail::to($book->user->email)->send(new BookPurchaseMail($request->user(), $book, $request->quantity));
 

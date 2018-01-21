@@ -4,46 +4,47 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Documentation - API Book Resource</title>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>API Reference</title>
 
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/all.js"></script>
 
-
-          <script>
+    <script>
         $(function() {
-            setupLanguages(["bash","javascript"]);
+        setupLanguages(["bash","javascript"]);
         });
-      </script>
-      </head>
+    </script>
+</head>
 
-  <body class="">
+<body class="">
     <a href="#" id="nav-button">
-      <span>
-        NAV
+        <span>
+            NAV
         <img src="images/navbar.png" />
-      </span>
+    </span>
     </a>
     <div class="tocify-wrapper">
-        <h1 class="text-center" style="background-color:#222;border-top:1px solid #000;border-bottom:1px solid #404040;color:#fff;padding:.67em 10px;font-size:1.7em;margin:0px;"><img src="images/logo.png"/><br/>API Book Resource</h1>
-            <div class="lang-selector">
-                <a href="#" data-language-name="bash" style="color:#fff!important;">bash</a>
-                <a href="#" data-language-name="javascript" style="color:#fff!important;">javascript</a>
-            </div>
-            <div class="search">
-                <input type="text" class="search" id="input-search" placeholder="Search">
-            </div>
-            <ul class="search-results"></ul>
-            <div id="toc">
-            </div>
-                    <ul class="toc-footer">
-                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
-                            </ul>
-            </div>
+        <h2 class="text-center" style="background-color:#222;border-top:1px solid #000;border-bottom:1px solid #404040;color:#fff;padding:.67em 10px;font-size:1.7em;margin:0px;">
+            <img src="images/book.png"/><br/>API Book Resource
+        </h2>
+        <div class="lang-selector">
+            <a href="#" data-language-name="bash">bash</a>
+            <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+            <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+        <div id="toc">
+        </div>
+        <ul class="toc-footer">
+            <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+        </ul>
+    </div>
     <div class="page-wrapper">
-      <div class="dark-box"></div>
-      <div class="content">
+        <div class="dark-box"></div>
+        <div class="content">
           <!-- START_INFO -->
 <h1>Introduction</h1>
 <p>Welcome to the generated API book resource application. If you encounter any problems when using the API, you can email me at <a href="mailto:egrubellano@gmail.com?subject=API Book Resource Feedback">egrubellano@gmail.com</a> or raise an issue on <a href="hhtp://github.com/errobadurl">GitHub</a>.</p>
@@ -51,7 +52,7 @@
 <!-- END_INFO -->
 <h1>Book</h1>
 <!-- START_81570fe29be54336ca67a7f3c307e51d -->
-<h2>List</h2>
+<h2>Book List</h2>
 <p>Displays all books with details.</p>
 <blockquote>
 <p>Example request:</p>
@@ -59,7 +60,6 @@
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/books" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -80,19 +80,19 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-json">{
     "data": [
         {
-            "title": "Title 1",
+            "title": "At vero eos",
             "author": "Lorem Ipsum",
-            "price": 2,
+            "price": 15,
             "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/1"
             }
         },
         {
-            "title": "Title 2",
-            "author": "Dolor Amit",
-            "price": 2,
-            "stock": 8,
+            "title": "Sed ut perspiciatis ",
+            "author": "Molre Spoif",
+            "price": 10,
+            "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/2"
             }
@@ -127,7 +127,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X POST "http://localhost/api/v1/books" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 
     -d "title"="cum"
     -d "description"="cum"
@@ -201,7 +200,7 @@ $.ajax(settings).done(function (response) {
 <td>stock</td>
 <td>integer</td>
 <td>required</td>
-<td>Maximum: <code>100</code></td>
+<td>Minimum: <code>0</code> Maximum: <code>100</code></td>
 </tr>
 </tbody>
 </table>
@@ -215,7 +214,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/books/{book}" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -235,10 +233,10 @@ $.ajax(settings).done(function (response) {
 </blockquote>
 <pre><code class="language-json">{
     "data": {
-        "title": "Title 1",
-        "decription": "Description 1",
+        "title": "At vero eos",
+        "decription": "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
         "author": "Lorem Ipsum",
-        "price": 2,
+        "price": 15,
         "stock": 10,
         "seller": {
             "name": "Juan Dela Cruz",
@@ -259,13 +257,27 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X PUT "http://localhost/api/v1/books/{book}" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
+
+    -d "title"="molestias"
+    -d "description"="molestias"
+    -d "author_first_name"="molestias"
+    -d "author_last_name"="molestias"
+    -d "price"="50"
+    -d "stock"="51"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
     "crossDomain": true,
     "url": "http://localhost/api/v1/books/{book}",
     "method": "PUT",
+    "data": {
+        "title": "molestias",
+        "description": "molestias",
+        "author_first_name": "molestias",
+        "author_last_name": "molestias",
+        "price": 50,
+        "stock": 51
+},
     "headers": {
         "accept": "application/json"
     }
@@ -277,6 +289,52 @@ $.ajax(settings).done(function (response) {
 <h3>HTTP Request</h3>
 <p><code>PUT api/v1/books/{book}</code></p>
 <p><code>PATCH api/v1/books/{book}</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>required</td>
+<td>Maximum: <code>191</code></td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>required</td>
+</tr>
+<tr>
+<td>author_first_name</td>
+<td>string</td>
+<td>required</td>
+</tr>
+<tr>
+<td>author_last_name</td>
+<td>string</td>
+<td>required</td>
+</tr>
+<tr>
+<td>price</td>
+<td>string</td>
+<td>required</td>
+<td>Between: <code>0</code> and <code>99.99</code></td>
+</tr>
+<tr>
+<td>stock</td>
+<td>integer</td>
+<td>required</td>
+<td>Minimum: <code>0</code> Maximum: <code>100</code></td>
+</tr>
+</tbody>
+</table>
 <!-- END_dda6a15c7fc613d6fd4cfdf821db8f8a -->
 <!-- START_16fc4b51a90879e1074166cd69c832de -->
 <h2>Book Delete</h2>
@@ -287,7 +345,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X DELETE "http://localhost/api/v1/books/{book}" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -315,7 +372,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/history" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -336,23 +392,13 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-json">{
     "data": [
         {
-            "title": "Title 1",
+            "title": "At vero eos",
             "author": "Lorem Ipsum",
-            "price": 2,
+            "price": 15,
             "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/history\/1",
                 "link_restore": "http:\/\/localhost\/api\/v1\/history\/1\/restore"
-            }
-        },
-        {
-            "title": "Title 3",
-            "author": "Molre Spoif",
-            "price": 2,
-            "stock": 10,
-            "href": {
-                "link": "http:\/\/localhost\/api\/v1\/history\/3",
-                "link_restore": "http:\/\/localhost\/api\/v1\/history\/3\/restore"
             }
         }
     ],
@@ -368,8 +414,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/history",
         "per_page": 10,
-        "to": 2,
-        "total": 2
+        "to": 1,
+        "total": 1
     }
 }</code></pre>
 <h3>HTTP Request</h3>
@@ -385,7 +431,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/history/{history}" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -405,10 +450,10 @@ $.ajax(settings).done(function (response) {
 </blockquote>
 <pre><code class="language-json">{
     "data": {
-        "title": "Title 1",
-        "decription": "Description 1",
+        "title": "At vero eos",
+        "decription": "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
         "author": "Lorem Ipsum",
-        "price": 2,
+        "price": 15,
         "stock": 10,
         "seller": {
             "name": "Juan Dela Cruz",
@@ -433,7 +478,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X DELETE "http://localhost/api/v1/history/{history}/delete" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -460,7 +504,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X PUT "http://localhost/api/v1/history/{history}/restore" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -489,9 +532,8 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X POST "http://localhost/api/v1/books/{book}/purchase" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 
-    -d "quantity"="37"
+    -d "quantity"="359513573"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -499,7 +541,7 @@ $.ajax(settings).done(function (response) {
     "url": "http://localhost/api/v1/books/{book}/purchase",
     "method": "POST",
     "data": {
-        "quantity": 37
+        "quantity": 359513573
 },
     "headers": {
         "accept": "application/json"
@@ -526,6 +568,7 @@ $.ajax(settings).done(function (response) {
 <td>quantity</td>
 <td>integer</td>
 <td>required</td>
+<td>Minimum: <code>0</code></td>
 </tr>
 </tbody>
 </table>
@@ -540,7 +583,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/search" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 
     -d "keyword"="aut"
     -d "author"="aut"
@@ -570,10 +612,10 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-json">{
     "data": [
         {
-            "title": "Title 2",
-            "author": "Dolor Amit",
-            "price": 2,
-            "stock": 8,
+            "title": "Sed ut perspiciatis ",
+            "author": "Molre Spoif",
+            "price": 10,
+            "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/2"
             }
@@ -638,7 +680,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/user" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -661,10 +702,12 @@ $.ajax(settings).done(function (response) {
         "first_name": "Juan",
         "last_name": "Dela Cruz",
         "email": "juan.d@example.com",
-        "books": 1,
-        "href": [
-            "http:\/\/localhost\/api\/v1\/books\/1"
-        ]
+        "books": {
+            "count": 1,
+            "href": [
+                "http:\/\/localhost\/api\/v1\/books\/1"
+            ]
+        }
     }
 }</code></pre>
 <h3>HTTP Request</h3>
@@ -680,12 +723,19 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X POST "http://localhost/api/v1/user/login" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
+
+    -d "email"="clarabelle94@example.net"
+    -d "password"="excepturi"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
     "crossDomain": true,
     "url": "http://localhost/api/v1/user/login",
     "method": "POST",
+    "data": {
+        "email": "clarabelle94@example.net",
+        "password": "excepturi"
+},
     "headers": {
         "accept": "application/json"
     }
@@ -696,6 +746,30 @@ $.ajax(settings).done(function (response) {
 });</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST api/v1/user/login</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td>email</td>
+<td>required</td>
+<td>Maximum: <code>191</code></td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
 <!-- END_7a184547882598fc164c10be7745584b -->
 <!-- START_7fef01e7235c89049ebe3685de4bff17 -->
 <h2>User Registration</h2>
@@ -706,12 +780,25 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X POST "http://localhost/api/v1/user/register" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
+
+    -d "first_name"="omnis"
+    -d "last_name"="omnis"
+    -d "email"="wjones@example.net"
+    -d "password"="omnis"
+    -d "password_confirmation"="omnis"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
     "crossDomain": true,
     "url": "http://localhost/api/v1/user/register",
     "method": "POST",
+    "data": {
+        "first_name": "omnis",
+        "last_name": "omnis",
+        "email": "wjones@example.net",
+        "password": "omnis",
+        "password_confirmation": "omnis"
+},
     "headers": {
         "accept": "application/json"
     }
@@ -722,6 +809,49 @@ $.ajax(settings).done(function (response) {
 });</code></pre>
 <h3>HTTP Request</h3>
 <p><code>POST api/v1/user/register</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>required</td>
+<td>Maximum: <code>191</code></td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>required</td>
+<td>Maximum: <code>191</code></td>
+</tr>
+<tr>
+<td>email</td>
+<td>email</td>
+<td>required</td>
+<td>Maximum: <code>191</code></td>
+</tr>
+<tr>
+<td>password</td>
+<td>string</td>
+<td>required</td>
+<td>Minimum: <code>6</code></td>
+</tr>
+<tr>
+<td>password_confirmation</td>
+<td>string</td>
+<td>required</td>
+<td>Minimum: <code>6</code></td>
+</tr>
+</tbody>
+</table>
 <!-- END_7fef01e7235c89049ebe3685de4bff17 -->
 <!-- START_ad438fdc8fd9eb9c3c9574f2c6d69dc2 -->
 <h2>User&#039;s Book List</h2>
@@ -732,7 +862,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/user/books" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -753,9 +882,9 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-json">{
     "data": [
         {
-            "title": "Title 1",
+            "title": "At vero eos",
             "author": "Lorem Ipsum",
-            "price": 2,
+            "price": 15,
             "stock": 10,
             "href": {
                 "link": "http:\/\/localhost\/api\/v1\/books\/1"
@@ -791,7 +920,6 @@ $.ajax(settings).done(function (response) {
 <pre><code class="language-bash">curl -X GET "http://localhost/api/v1/user/purchases" 
 -H "Accept: application/json"
 -H "Content-Type: application/json"
--H "Authorization: Bearer {token}"
 </code></pre>
 <pre><code class="language-javascript">var settings = {
     "async": true,
@@ -813,9 +941,9 @@ $.ajax(settings).done(function (response) {
     "data": [
         {
             "book": {
-                "title": "Title 2",
-                "author": "Dolor Amit",
-                "price": 2,
+                "title": "Sed ut perspiciatis ",
+                "author": "Molre Spoif",
+                "price": 10,
                 "href": {
                     "link": "http:\/\/localhost\/api\/v1\/books\/2"
                 }
@@ -828,25 +956,6 @@ $.ajax(settings).done(function (response) {
             "seller": {
                 "name": "John Smith",
                 "email": "john.s@example.com"
-            }
-        },
-        {
-            "book": {
-                "title": "Title 1",
-                "author": "Lorem Ipsum",
-                "price": 2,
-                "href": {
-                    "link": "http:\/\/localhost\/api\/v1\/books\/1"
-                }
-            },
-            "customer": {
-                "name": "Juan Dela Cruz",
-                "email": "juan.d@example.com"
-            },
-            "quantity": 1,
-            "seller": {
-                "name": "Juan Dela Cruz",
-                "email": "juan.d@example.com"
             }
         }
     ],
@@ -862,8 +971,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/user\/purchases",
         "per_page": 10,
-        "to": 2,
-        "total": 2
+        "to": 1,
+        "total": 1
     }
 }</code></pre>
 <h3>HTTP Request</h3>

@@ -28,7 +28,7 @@ class HistoryController extends Controller
      *
      * Display a listing of the deleted books.
      *
-     * @resource History
+     * @method GET
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -42,6 +42,7 @@ class HistoryController extends Controller
      *
      * View a specified book from the history.
      *
+     * @method GET
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -59,6 +60,7 @@ class HistoryController extends Controller
      *
      * Restore a specified book from the history.
      *
+     * @method PUT|PATCH
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -80,6 +82,7 @@ class HistoryController extends Controller
      *
      * Force delete the specified book from the app.
      *
+     * @method DELETE
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

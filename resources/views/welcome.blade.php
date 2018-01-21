@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
+                    <a href="/docs">Documentation</a>
                     <a href="https://github.com/errorbadurl/api-bookresource" target="_blank">GitHub</a>
                 </div>
             </div>
